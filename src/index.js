@@ -1,3 +1,21 @@
+import '../src/pages/index.css';
+
+import './vendor/fonts/Inter-Black.woff2';
+import './vendor/fonts/Inter-Medium.woff2';
+import './vendor/fonts/Inter-Regular.woff2';
+
+import './images/add-icon.svg';
+import './images/avatar.jpg';
+import './images/card_1.jpg';
+import './images/card_2.jpg';
+import './images/card_3.jpg';
+import './images/close.svg';
+import './images/delete-icon.svg';
+import './images/edit-icon.svg';
+import './images/like-active.svg';
+import './images/like-inactive.svg';
+import './images/logo.svg';
+
 const placesList = document.querySelector('.places__list');
 const cardTemplate = document.querySelector('#card-template').content;
 
