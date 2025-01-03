@@ -1,7 +1,7 @@
 import '../src/pages/index.css';
 import {initialCards} from '../src/scripts/cards';
 
-import { createCard, deleteCard } from '../src/components/card';
+import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
@@ -27,7 +27,7 @@ const profileJob = document.querySelector('.profile__description');
 
 // Отрисовка карточек на странице
 
-initialCards.forEach(item => placesList.append(createCard(item.link, item.name, deleteCard)));
+initialCards.forEach(item => placesList.append(createCard(item.link, item.name, deleteCard, likeCard)));
 
 // Открытие и закрытие модального окна редактирования профиля
 
@@ -70,17 +70,18 @@ closeButtonNewCard.addEventListener('click', () => closeModal(popupNewCard));
 // Добавление карточки
 const formNewCard = popupNewCard.querySelector('.popup__form');
 
-function addCard(evt) {
-  evt.preventDefault();
+function addCard() {
   const cardData = {
     url: urlNewCard.value,
     place: placeNameNewCard.value
   }
   
-  placesList.prepend(createCard(cardData.url, cardData.place, deleteCard));
+  placesList.prepend(createCard(cardData.url, cardData.place, deleteCard, likeCard));
 }
 
-formNewCard.addEventListener('submit', addCard);
-
-// Открытие и закрытие модального окна изображения карточки
-
+formNewCard.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  addCard();
+  formNewCard.reset();
+  closeModal(popupNewCard);
+});
