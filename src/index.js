@@ -33,7 +33,6 @@ const popupImageDescription = popupImg.querySelector('.popup__caption');
 const closeButtonImage = popupImg.querySelector('.popup__close');
 
 function openImg(evt) {
-  console.log('Hello!');
   popupImageImg.src = evt.target.src;
   popupImageImg.alt = evt.target.alt;
   popupImageDescription.textContent = evt.target.alt;
