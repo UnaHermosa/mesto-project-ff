@@ -1,8 +1,10 @@
+import { openModal } from "./modal";
+
 const cardTemplate = document.querySelector('#card-template').content;
 
 // Создание карточки
 
-function createCard (link, name, onDelete, like) {
+function createCard (link, name, onDelete, like, openImg) {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -16,6 +18,8 @@ function createCard (link, name, onDelete, like) {
   deleteButton.addEventListener('click', () => deleteCard(card));
 
   likeButton.addEventListener('click', likeCard);
+  
+  cardImage.addEventListener('click', openImg);
   
   return card;
 }
