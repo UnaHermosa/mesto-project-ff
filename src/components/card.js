@@ -1,5 +1,3 @@
-import { openModal } from "./modal";
-
 const cardTemplate = document.querySelector('#card-template').content;
 
 // Создание карточки
@@ -20,7 +18,7 @@ function createCard (link, name, onDelete, like, openImg) {
   likeButton.addEventListener('click', likeCard);
   
   cardImage.addEventListener('click', openImg);
-  
+
   return card;
 }
 
