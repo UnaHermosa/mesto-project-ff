@@ -3,6 +3,7 @@ import {initialCards} from '../src/scripts/cards';
 
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
+import { enableValidation, clearValidation } from './components/validation';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -19,6 +20,7 @@ import '../src/images/like-active.svg';
 import '../src/images/like-inactive.svg';
 import '../src/images/logo.svg';
 
+const form = document.querySelector('.popup__form');
 const placesList = document.querySelector('.places__list');
 const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
@@ -29,9 +31,8 @@ const closeButtonImage = popupImg.querySelector('.popup__close');
 const popupEdit = document.querySelector('.popup_type_edit');
 const editProfileButton = document.querySelector('.profile__edit-button');
 const closeButtonEdit = popupEdit.querySelector('.popup__close');
-const formEdit = popupEdit.querySelector('.popup__form');
-const profileName = formEdit.querySelector('.popup__input_type_name');
-const profileInputDescription = formEdit.querySelector('.popup__input_type_description');
+const profileName = form.querySelector('.popup__input_type_name');
+const profileInputDescription = form.querySelector('.popup__input_type_description');
 const popupNewCard = document.querySelector('.popup_type_new-card');
 const addButton = document.querySelector('.profile__add-button');
 const closeButtonNewCard = popupNewCard.querySelector('.popup__close');
@@ -77,6 +78,7 @@ initialCards.forEach(item => placesList.append(createCard(item.link, item.name, 
 editProfileButton.addEventListener('click', () => {
   profileName.value = profileTitle.textContent;
   profileInputDescription.value = profileJob.textContent;
+  clearValidation(popupEdit);
   openModal(popupEdit);
 });
 
@@ -102,4 +104,6 @@ closeButtonImage.addEventListener('click', () => closeModal(popupImg));
 
 // Редактирование профиля
 
-formEdit.addEventListener('submit', handleFormEditSubmit);
+form.addEventListener('submit', handleFormEditSubmit);
+
+enableValidation();

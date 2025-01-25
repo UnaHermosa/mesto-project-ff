@@ -14,6 +14,14 @@
   margin-bottom: 0;
 }
 
+.popup__input:focus {
+  outline: none;
+}
+
+.popup__input:focus-visible {
+  outline: 2px solid lightblue;
+}
+
 @media screen and (max-width: 568px) {
   .popup__title {
     font-size: 12px;
