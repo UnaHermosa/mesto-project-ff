@@ -1,23 +1,23 @@
 //Добавление полю ввода класса с ошибкой
 
-function showInputerror (formElement, inputElement, errorMessage) {
+function showInputerror (formElement, inputElement, errorMessage, validationSettings) {
   
   //Находит элемент формы по Id для вывода текста ошибки
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
-  inputElement.classList.add('popup__input_type_error');
+  inputElement.classList.add(validationSettings.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
+  errorElement.classList.add(validationSettings.inputErrorClass);
  };
 
 //Удаление класса с ошибкой у валидного поля ввода
 
-function hideInputError (formElement, inputElement) {
+function hideInputError (formElement, inputElement, validationSettings) {
   //Находит элемент формы по Id для вывода текста ошибки
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
-  inputElement.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__input-error_active');
+  inputElement.classList.remove(validationSettings.inputErrorClass);
+  errorElement.classList.remove(validationSettings.inputErrorClass);
   errorElement.textContent = '';
 };
 
@@ -49,8 +49,8 @@ function isValid (formElement, inputElement) {
 
 //Добавление обработчиков событий всем фполям ввода в форме
 
-function setEventListeners (formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+function setEventListeners (formElement, validationSettings) {
+  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
 
   const buttonElement = formElement.querySelector('.popup__button');
 
@@ -64,8 +64,8 @@ function setEventListeners (formElement) {
 
 //Поиск всех форм на странице и добавления им обработчиков событий
 
-function enableValidation () {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
+function enableValidation (validationSettings) {
+  const formList = Array.from(document.querySelectorAll(validationSettings.formSelector));
 
   formList.forEach((form) => {
     setEventListeners(form);
@@ -74,9 +74,9 @@ function enableValidation () {
 
 // Очистка формы от текстов ошибок валидации
 
-function clearValidation (formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  const buttonElement = formElement.querySelector('.popup__button');
+function clearValidation (formElement, validationSettings) {
+  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const buttonElement = formElement.querySelector(validationSettings.submitButtonSelector);
   
   inputList.forEach((input) => {
     hideInputError(formElement, input);

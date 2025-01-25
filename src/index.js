@@ -40,6 +40,17 @@ const urlNewCard = popupNewCard.querySelector('.popup__input_type_url');
 const placeNameNewCard = popupNewCard.querySelector('.popup__input_type_card-name');
 const formNewCard = popupNewCard.querySelector('.popup__form');
 
+// Объект с настройками валидации
+
+const validationSettings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
 // Реализация открытия и закрытия модального окна с изображением
 
 function openImg(evt) {
@@ -78,7 +89,7 @@ initialCards.forEach(item => placesList.append(createCard(item.link, item.name, 
 editProfileButton.addEventListener('click', () => {
   profileName.value = profileTitle.textContent;
   profileInputDescription.value = profileJob.textContent;
-  clearValidation(popupEdit);
+  clearValidation(popupEdit, validationSettings);
   openModal(popupEdit);
 });
 
@@ -88,7 +99,7 @@ closeButtonEdit.addEventListener('click', () => closeModal(popupEdit));
 
 addButton.addEventListener('click', () => {
   formNewCard.reset();
-  clearValidation(popupNewCard);
+  clearValidation(popupNewCard, validationSettings);
   openModal(popupNewCard);
 });
 closeButtonNewCard.addEventListener('click', () => closeModal(popupNewCard));
@@ -110,4 +121,4 @@ closeButtonImage.addEventListener('click', () => closeModal(popupImg));
 
 form.addEventListener('submit', handleFormEditSubmit);
 
-enableValidation();
+enableValidation(validationSettings);

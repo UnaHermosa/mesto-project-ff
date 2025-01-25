@@ -1,4 +1,4 @@
-.popup__input-error_active {
+.popup__error_visible {
   display: block;
   position: absolute;
   width: 100%;
