@@ -86,7 +86,11 @@ closeButtonEdit.addEventListener('click', () => closeModal(popupEdit));
 
 // Открытие и закрытие модального окна добавления карточки
 
-addButton.addEventListener('click', () => openModal(popupNewCard));
+addButton.addEventListener('click', () => {
+  formNewCard.reset();
+  clearValidation(popupNewCard);
+  openModal(popupNewCard);
+});
 closeButtonNewCard.addEventListener('click', () => closeModal(popupNewCard));
 
 // Добавление новой карточки
