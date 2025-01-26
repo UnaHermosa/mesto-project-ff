@@ -4,6 +4,7 @@ import {initialCards} from '../src/scripts/cards';
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
+import { getUserData } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -51,7 +52,7 @@ const validationSettings = {
   errorClass: 'popup__error_visible'
 };
 
-console.log(validationSettings.inputErrorClass);
+getUserData();
 
 // Реализация открытия и закрытия модального окна с изображением
 
@@ -66,8 +67,9 @@ function openImg(evt) {
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = profileName.value;
+  profileTitle.textContent = profileTitle.value;
   profileJob.textContent = profileInputDescription.value;
+
   closeModal(popupEdit);
 }
 
