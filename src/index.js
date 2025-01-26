@@ -51,6 +51,8 @@ const validationSettings = {
   errorClass: 'popup__error_visible'
 };
 
+console.log(validationSettings.inputErrorClass);
+
 // Реализация открытия и закрытия модального окна с изображением
 
 function openImg(evt) {

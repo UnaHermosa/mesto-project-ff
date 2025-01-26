@@ -2,7 +2,8 @@
   display: block;
   position: absolute;
   width: 100%;
-  min-height: 1em;
+  line-height: auto;
+  text-align: start;
   top: 47px;
   left: 0;
   color: #ff0000;

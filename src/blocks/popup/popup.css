@@ -10,6 +10,7 @@
 @import url('./__input-wrapper/popup__input-wrapper.css');
 @import url('./__input/_type/popup__input_type_error.css');
 @import url('./__error/popup__error_visible.css');
+@import url('./__button/_disabled/popup__button_disabled.css');
 
 
 .popup {
