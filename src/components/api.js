@@ -37,4 +37,17 @@ function getCards() {
   .then((res) => console.log(res))
 };
 
-export { getUserData, getCards };
+// Редактирование данных профиля
+
+function patchUserData(name, about) {
+  return fetch(`${config.urlBase}/users/me`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      name,
+      about
+    })
+  }).then(getResponse)
+};
+
+export { getUserData, getCards, patchUserData };

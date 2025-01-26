@@ -4,7 +4,7 @@ import {initialCards} from '../src/scripts/cards';
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getCards } from './components/api';
+import { getUserData, getCards, patchUserData } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
