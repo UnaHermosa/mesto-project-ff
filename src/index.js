@@ -1,16 +1,14 @@
 import '../src/pages/index.css';
-import {initialCards} from '../src/scripts/cards';
 
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getCards, patchUserData } from './components/api';
+import { getUserData, getInitialCards, patchUserData } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
 
 import '../src/images/add-icon.svg';
-import '../src/images/avatar.jpg';
 import '../src/images/card_1.jpg';
 import '../src/images/card_2.jpg';
 import '../src/images/card_3.jpg';
@@ -25,6 +23,7 @@ const form = document.querySelector('.popup__form');
 const placesList = document.querySelector('.places__list');
 const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
+const avatar = document.querySelector('.profile__image');
 const popupImg = document.querySelector('.popup_type_image');
 const popupImageImg = popupImg.querySelector('.popup__image');
 const popupImageDescription = popupImg.querySelector('.popup__caption');
@@ -40,6 +39,9 @@ const closeButtonNewCard = popupNewCard.querySelector('.popup__close');
 const urlNewCard = popupNewCard.querySelector('.popup__input_type_url');
 const placeNameNewCard = popupNewCard.querySelector('.popup__input_type_card-name');
 const formNewCard = popupNewCard.querySelector('.popup__form');
+
+
+let userId = "";
 
 // Объект с настройками валидации
 
@@ -67,7 +69,7 @@ function handleFormEditSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = profileTitle.value;
   profileJob.textContent = profileInputDescription.value;
-
+  
   closeModal(popupEdit);
 }
 
@@ -84,7 +86,19 @@ function addCard() {
 
 // Отрисовка карточек на странице
 
-initialCards.forEach(item => placesList.append(createCard(item.link, item.name, deleteCard, likeCard, openImg)));
+Promise.all([getUserData(), getInitialCards()])
+  .then(([userData, initialCards]) => {
+    console.log(initialCards[0]);
+    
+    userId = userData._id;
+    profileTitle.textContent = userData.name;
+    profileJob.textContent = userData.about;
+    avatar.style.backgroundImage = `url(${userData.avatar}`;
+
+    initialCards.forEach((card) => {
+      placesList.append(createCard(card.link, card.name, deleteCard, likeCard, openImg))
+    });
+  });
 
 // Открытие и закрытие модального окна редактирования профиля
 
@@ -124,6 +138,3 @@ closeButtonImage.addEventListener('click', () => closeModal(popupImg));
 form.addEventListener('submit', handleFormEditSubmit);
 
 enableValidation(validationSettings);
-
-getUserData();
-getCards();

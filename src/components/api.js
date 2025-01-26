@@ -20,21 +20,20 @@ function getResponse(res) {
 
 function getUserData() {
   return fetch(`${config.urlBase}/users/me`, {
+    method: 'GET',
     headers: config.headers
     })
-    .then(getResponse)
-    .then((res) => console.log(res));
+    .then(getResponse);
 };
 
 // Загрузка карточек с сервера
 
-function getCards() {
+function getInitialCards() {
   return fetch(`${config.urlBase}/cards`, {
     method: 'GET',
     headers: config.headers
   })
-  .then(getResponse)
-  .then((res) => console.log(res))
+  .then(getResponse);
 };
 
 // Редактирование данных профиля
@@ -47,7 +46,7 @@ function patchUserData(name, about) {
       name,
       about
     })
-  }).then(getResponse)
+  }).then(getResponse);
 };
 
-export { getUserData, getCards, patchUserData };
+export { getUserData, getInitialCards, patchUserData };
