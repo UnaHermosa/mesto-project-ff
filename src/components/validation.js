@@ -1,5 +1,5 @@
 //Добавление полю ввода класса с ошибкой
-function showInputerror (formElement, inputElement, errorMessage, validationSettings) {
+function showInputerror(formElement, inputElement, errorMessage, validationSettings) {
   
   //Находит элемент формы по Id для вывода текста ошибки
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -10,7 +10,7 @@ function showInputerror (formElement, inputElement, errorMessage, validationSett
  };
 
 //Удаление класса с ошибкой у валидного поля ввода
-function hideInputError (formElement, inputElement, validationSettings) {
+function hideInputError(formElement, inputElement, validationSettings) {
   
   //Находит элемент формы по Id для вывода текста ошибки
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -21,7 +21,7 @@ function hideInputError (formElement, inputElement, validationSettings) {
 };
 
 //Поиск невалидных полей ввода
-function hasInvalidInput (inputList) {
+function hasInvalidInput(inputList) {
   return inputList.some((input) => {return !input.validity.valid});
 };
 
@@ -37,7 +37,7 @@ function toggleButtonState (inputList, buttonElement, validationSettings) {
 };
 
 //Валидация формы и вывод текста ошибок
-function isValid (formElement, inputElement, validationSettings) {
+function isValid(formElement, inputElement, validationSettings) {
   if(inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
@@ -52,7 +52,7 @@ function isValid (formElement, inputElement, validationSettings) {
 };
 
 //Добавление обработчиков событий всем фполям ввода в форме
-function setEventListeners (formElement, validationSettings) {
+function setEventListeners(formElement, validationSettings) {
   const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
   const buttonElement = formElement.querySelector(validationSettings.submitButtonSelector);
   inputList.forEach((element) => {
@@ -64,7 +64,7 @@ function setEventListeners (formElement, validationSettings) {
 };
 
 //Поиск всех форм на странице и добавления им обработчиков событий
-function enableValidation (validationSettings) {
+function enableValidation(validationSettings) {
   const formList = Array.from(document.querySelectorAll(validationSettings.formSelector));
   formList.forEach((form) => {
     setEventListeners(form, validationSettings);
@@ -72,7 +72,7 @@ function enableValidation (validationSettings) {
 };
 
 // Очистка формы от текстов ошибок валидации
-function clearValidation (formElement, validationSettings) {
+function clearValidation(formElement, validationSettings) {
   const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
   const buttonElement = formElement.querySelector(validationSettings.submitButtonSelector);
   

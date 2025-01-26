@@ -4,7 +4,7 @@ import {initialCards} from '../src/scripts/cards';
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData } from './components/api';
+import { getUserData, getCards } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -51,8 +51,6 @@ const validationSettings = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
-
-getUserData();
 
 // Реализация открытия и закрытия модального окна с изображением
 
@@ -126,3 +124,6 @@ closeButtonImage.addEventListener('click', () => closeModal(popupImg));
 form.addEventListener('submit', handleFormEditSubmit);
 
 enableValidation(validationSettings);
+
+getUserData();
+getCards();

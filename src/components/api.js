@@ -8,7 +8,7 @@ const config = {
 
 // Прооверка получения ответа с сервера
 
-function getResponse (res) {
+function getResponse(res) {
   if(res.ok) {
     return res.json();
   }
@@ -26,4 +26,15 @@ function getUserData() {
     .then((res) => console.log(res));
 };
 
-export { getUserData };
+// Загрузка карточек с сервера
+
+function getCards() {
+  return fetch(`${config.urlBase}/cards`, {
+    method: 'GET',
+    headers: config.headers
+  })
+  .then(getResponse)
+  .then((res) => console.log(res))
+};
+
+export { getUserData, getCards };
