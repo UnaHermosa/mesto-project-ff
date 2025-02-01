@@ -48,4 +48,18 @@ function patchUserData(name, about) {
   }).then(getResponse);
 };
 
-export { getUserData, getInitialCards, patchUserData };
+// Добавление новой карточки
+
+function postNewCard(name, link) {
+  return fetch(`${config.urlBase}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      name,
+      link
+    })
+  })
+  .then(getResponse);
+};
+
+export { getUserData, getInitialCards, patchUserData, postNewCard };

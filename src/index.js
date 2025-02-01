@@ -3,7 +3,7 @@ import '../src/pages/index.css';
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getInitialCards, patchUserData } from './components/api';
+import { getUserData, getInitialCards, patchUserData, postNewCard } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -55,13 +55,13 @@ const validationSettings = {
 
 // Функция для изменения кнопки сохранения в зависимости от процесса загрузки
 
-const renderLoading = (isLoading, formElement) => {
-	const buttonElement = formElement.querySelector('.popup__button')
-	if (isLoading) {
-		buttonElement.textContent = 'Сохранение...';
-	} else {
-		buttonElement.textContent = 'Сохранить';
-	}
+function renderLoading(isLoading, formElement) {
+  const buttonElement = formElement.querySelector('.popup__button')
+  if (isLoading) {
+    buttonElement.textContent = 'Сохранение...';
+  } else {
+    buttonElement.textContent = 'Сохранить';
+  }
 }
 
 // Реализация открытия и закрытия модального окна с изображением
@@ -79,29 +79,42 @@ function handleFormEditSubmit(evt) {
   evt.preventDefault();
   renderLoading(true, popupEdit);
 
-  const userName = profileName.value;
-  const userJob = profileInputDescription.value;
+  const userData = {
+    name: profileName.value,
+    job: profileInputDescription.value
+  };
 
-  patchUserData(userName, userJob)
+  patchUserData(userData.name, userData.job)
     .then((data) => {
       profileTitle.textContent = data.name;
       profileJob.textContent = data.about;
       closeModal(popupEdit);
-  })
+    })
     .catch(err => console.log(err))
-    .finally(() => renderLoading(false, popupEdit));  
+    .finally(() => renderLoading(false, popupEdit));
 }
 
-// Функция добавления карточки
+// Обработчик формы добавления новой карточки
 
-function addCard() {
-  const cardData = {
-    url: urlNewCard.value,
+function handleFormNewCardSubmit(evt) {
+  evt.preventDefault();
+  renderLoading(true, popupNewCard);
+
+  const userData = {
+    link: urlNewCard.value,
     place: placeNameNewCard.value
-  }
-  
-  placesList.prepend(createCard(cardData.url, cardData.place, deleteCard, likeCard, openImg));
-}
+  };
+
+  postNewCard(userData.place, userData.link)
+    .then((card) => {
+      console.log(card);
+      placesList.prepend(createCard(card.link, card.name, ondeviceorientationabsolute, openImg));
+      formNewCard.reset();
+      closeModal(popupNewCard);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(false, popupNewCard));
+};
 
 // Отрисовка карточек на странице
 
@@ -139,12 +152,7 @@ closeButtonNewCard.addEventListener('click', () => closeModal(popupNewCard));
 
 // Добавление новой карточки
 
-formNewCard.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  addCard();
-  formNewCard.reset();
-  closeModal(popupNewCard);
-});
+formNewCard.addEventListener('submit', handleFormNewCardSubmit);
 
 // Закрытие модального окна с изображением
 
