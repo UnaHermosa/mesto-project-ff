@@ -1,9 +1,9 @@
 import '../src/pages/index.css';
 
-import { createCard, deleteCard, likeCard } from '../src/components/card';
+import { createCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard } from './components/api';
+import { getUserData, getInitialCards, patchUserData, postNewCard } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -108,7 +108,7 @@ function handleFormNewCardSubmit(evt) {
   postNewCard(userData.place, userData.link)
     .then((card) => {
       console.log(card);
-      placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg));
+      placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId));
       formNewCard.reset();
       closeModal(popupNewCard);
     })
@@ -126,7 +126,7 @@ Promise.all([getUserData(), getInitialCards()])
     avatar.style.backgroundImage = `url(${userData.avatar}`;
 
     initialCards.forEach((card) => {
-      placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg))
+      placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId))
     });
   });
 

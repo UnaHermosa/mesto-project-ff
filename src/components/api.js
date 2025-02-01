@@ -72,4 +72,12 @@ function setLikeToCard(cardId, isLiked) {
   .then(getResponse);
 };
 
-export { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard };
+function removeCard(cardId) {
+  return fetch(`${config.urlBase}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(getResponse);
+};
+
+export { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard, removeCard };

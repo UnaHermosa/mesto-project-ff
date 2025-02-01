@@ -1,10 +1,10 @@
-import { setLikeToCard } from "./api";
+import { setLikeToCard, removeCard } from "./api";
 
 const cardTemplate = document.querySelector('#card-template').content;
 
 // Создание карточки
 
-function createCard (link, name, cardId, like, openImg) {
+function createCard (link, name, cardId, like, openImg, ownerId, userId) {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -17,7 +17,11 @@ function createCard (link, name, cardId, like, openImg) {
   cardTitle.textContent = name;
   likesCount.textContent = like.length;
   
-  deleteButton.addEventListener('click', () => deleteCard(card));
+  if(ownerId !== userId) {
+    deleteButton.remove();
+  } else {
+    deleteButton.addEventListener('click', () => deleteCard(card));
+  }
 
   likeButton.addEventListener('click', () => likeCard(likeButton, cardId, likesCount));
   
