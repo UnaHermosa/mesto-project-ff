@@ -20,7 +20,6 @@ function getResponse(res) {
 
 function getUserData() {
   return fetch(`${config.urlBase}/users/me`, {
-    method: 'GET',
     headers: config.headers
     })
     .then(getResponse);

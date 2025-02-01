@@ -40,8 +40,7 @@ const urlNewCard = popupNewCard.querySelector('.popup__input_type_url');
 const placeNameNewCard = popupNewCard.querySelector('.popup__input_type_card-name');
 const formNewCard = popupNewCard.querySelector('.popup__form');
 
-
-let userId = "";
+let currentUserId = "";
 
 // Объект с настройками валидации
 
@@ -53,6 +52,17 @@ const validationSettings = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
+
+// Функция для изменения кнопки сохранения в зависимости от процесса загрузки
+
+const renderLoading = (isLoading, formElement) => {
+	const buttonElement = formElement.querySelector('.popup__button')
+	if (isLoading) {
+		buttonElement.textContent = 'Сохранение...';
+	} else {
+		buttonElement.textContent = 'Сохранить';
+	}
+}
 
 // Реализация открытия и закрытия модального окна с изображением
 
@@ -67,10 +77,19 @@ function openImg(evt) {
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = profileTitle.value;
-  profileJob.textContent = profileInputDescription.value;
-  
-  closeModal(popupEdit);
+  renderLoading(true, popupEdit);
+
+  const userName = profileName.value;
+  const userJob = profileInputDescription.value;
+
+  patchUserData(userName, userJob)
+    .then((data) => {
+      profileTitle.textContent = data.name;
+      profileJob.textContent = data.about;
+      closeModal(popupEdit);
+  })
+    .catch(err => console.log(err))
+    .finally(() => renderLoading(false, popupEdit));  
 }
 
 // Функция добавления карточки
@@ -88,9 +107,7 @@ function addCard() {
 
 Promise.all([getUserData(), getInitialCards()])
   .then(([userData, initialCards]) => {
-    console.log(initialCards[0]);
-    
-    userId = userData._id;
+    currentUserId = userData._id;
     profileTitle.textContent = userData.name;
     profileJob.textContent = userData.about;
     avatar.style.backgroundImage = `url(${userData.avatar}`;
