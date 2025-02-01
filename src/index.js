@@ -3,7 +3,7 @@ import '../src/pages/index.css';
 import { createCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getInitialCards, patchUserData, postNewCard } from './components/api';
+import { getUserData, getInitialCards, updateUserData, postNewCard } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -84,7 +84,7 @@ function handleFormEditSubmit(evt) {
     job: profileInputDescription.value
   };
 
-  patchUserData(userData.name, userData.job)
+  updateUserData(userData.name, userData.job)
     .then((data) => {
       profileTitle.textContent = data.name;
       profileJob.textContent = data.about;

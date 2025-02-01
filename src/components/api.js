@@ -37,7 +37,7 @@ function getInitialCards() {
 
 // Редактирование данных профиля
 
-function patchUserData(name, about) {
+function updateUserData(name, about) {
   return fetch(`${config.urlBase}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -77,7 +77,16 @@ function removeCard(cardId) {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(getResponse);
+  .then(getResponse);
 };
 
-export { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard, removeCard };
+function updateAvatar() {
+  return fetch(`${config.urlBase}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({avatar})
+  })
+  .then(getResponse);
+};
+
+export { getUserData, getInitialCards, updateUserData, postNewCard, setLikeToCard, removeCard, updateAvatar };
