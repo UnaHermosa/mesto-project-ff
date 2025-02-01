@@ -3,7 +3,7 @@ import '../src/pages/index.css';
 import { createCard, deleteCard, likeCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getInitialCards, patchUserData, postNewCard } from './components/api';
+import { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -53,7 +53,7 @@ const validationSettings = {
   errorClass: 'popup__error_visible'
 };
 
-// Функция для изменения кнопки сохранения в зависимости от процесса загрузки
+// Функция для изменения текста кнопки сохранения в зависимости от процесса загрузки
 
 function renderLoading(isLoading, formElement) {
   const buttonElement = formElement.querySelector('.popup__button')
@@ -108,7 +108,7 @@ function handleFormNewCardSubmit(evt) {
   postNewCard(userData.place, userData.link)
     .then((card) => {
       console.log(card);
-      placesList.prepend(createCard(card.link, card.name, ondeviceorientationabsolute, openImg));
+      placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg));
       formNewCard.reset();
       closeModal(popupNewCard);
     })
@@ -126,7 +126,7 @@ Promise.all([getUserData(), getInitialCards()])
     avatar.style.backgroundImage = `url(${userData.avatar}`;
 
     initialCards.forEach((card) => {
-      placesList.append(createCard(card.link, card.name, deleteCard, likeCard, openImg))
+      placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg))
     });
   });
 

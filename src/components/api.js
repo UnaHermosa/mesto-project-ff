@@ -62,4 +62,14 @@ function postNewCard(name, link) {
   .then(getResponse);
 };
 
-export { getUserData, getInitialCards, patchUserData, postNewCard };
+// Добавление лайка
+
+function setLikeToCard(cardId, isLiked) {
+  return fetch(`${config.urlBase}/cards/likes/${cardId}`, {
+    method: isLiked ? 'DELETE' : 'PUT',
+    headers: config.headers
+  })
+  .then(getResponse);
+};
+
+export { getUserData, getInitialCards, patchUserData, postNewCard, setLikeToCard };
