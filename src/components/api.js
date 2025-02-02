@@ -13,7 +13,7 @@ function getResponse(res) {
     return res.json();
   }
 
-  return Promise.reject(`Ошибка ${res.status, res.statusText}`);
+  return Promise.reject(`Ошибка: ${res.status, res.statusText}`);
 };
 
 // Запрос данных о пользовтаеле с сервера
