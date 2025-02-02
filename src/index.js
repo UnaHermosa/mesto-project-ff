@@ -3,7 +3,7 @@ import '../src/pages/index.css';
 import { createCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
-import { getUserData, getInitialCards, updateUserData, postNewCard } from './components/api';
+import { getUserData, getInitialCards, updateUserData, postNewCard, updateAvatar } from './components/api';
 
 import '../src/vendor/fonts/Inter-Black.woff2';
 import '../src/vendor/fonts/Inter-Regular.woff2';
@@ -23,7 +23,7 @@ const form = document.querySelector('.popup__form');
 const placesList = document.querySelector('.places__list');
 const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
-const avatar = document.querySelector('.profile__image');
+const avatarImg = document.querySelector('.profile__image');
 const popupImg = document.querySelector('.popup_type_image');
 const popupImageImg = popupImg.querySelector('.popup__image');
 const popupImageDescription = popupImg.querySelector('.popup__caption');
@@ -39,6 +39,10 @@ const closeButtonNewCard = popupNewCard.querySelector('.popup__close');
 const urlNewCard = popupNewCard.querySelector('.popup__input_type_url');
 const placeNameNewCard = popupNewCard.querySelector('.popup__input_type_card-name');
 const formNewCard = popupNewCard.querySelector('.popup__form');
+const popupEditAvatar = document.querySelector('.popup_type_new-avatar');
+const formNewAvatar = popupEditAvatar.querySelector('.popup__form');
+const inputNewAvatar = formNewAvatar.querySelector('.popup__input_type_avatar');
+const closeButtonEditAvatar = popupEditAvatar.querySelector('.popup__close');
 
 let currentUserId = "";
 
@@ -107,13 +111,28 @@ function handleFormNewCardSubmit(evt) {
 
   postNewCard(userData.place, userData.link)
     .then((card) => {
-      console.log(card);
       placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId));
       formNewCard.reset();
       closeModal(popupNewCard);
     })
     .catch((err) => console.log(err))
     .finally(() => renderLoading(false, popupNewCard));
+};
+
+// Обработчик формы изменения аватара
+
+function handleFormNewAvatarSubmit(evt) {
+  evt.preventDefault();
+  renderLoading(true, popupEditAvatar);
+  
+  updateAvatar(inputNewAvatar.value)
+    .then((avatar) => {
+      avatarImg.style.backgroundImage = `url${avatar.avatar}`;
+      formNewAvatar.reset();
+      closeModal(popupEditAvatar);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(false, popupEditAvatar));
 };
 
 // Отрисовка карточек на странице
@@ -123,12 +142,22 @@ Promise.all([getUserData(), getInitialCards()])
     currentUserId = userData._id;
     profileTitle.textContent = userData.name;
     profileJob.textContent = userData.about;
-    avatar.style.backgroundImage = `url(${userData.avatar}`;
+    avatarImg.style.backgroundImage = `url(${userData.avatar}`;
 
     initialCards.forEach((card) => {
       placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId))
     });
   });
+
+// Открытие и закрытие модального окна редактирования аватара
+
+avatarImg.addEventListener('click', () => {
+  formNewAvatar.reset();
+  clearValidation(formNewAvatar, validationSettings);
+  openModal(popupEditAvatar);
+});
+
+closeButtonEditAvatar.addEventListener('click', () => closeModal(popupEditAvatar));
 
 // Открытие и закрытие модального окна редактирования профиля
 
@@ -148,6 +177,7 @@ addButton.addEventListener('click', () => {
   clearValidation(popupNewCard, validationSettings);
   openModal(popupNewCard);
 });
+
 closeButtonNewCard.addEventListener('click', () => closeModal(popupNewCard));
 
 // Добавление новой карточки
@@ -161,5 +191,9 @@ closeButtonImage.addEventListener('click', () => closeModal(popupImg));
 // Редактирование профиля
 
 form.addEventListener('submit', handleFormEditSubmit);
+
+// Редактирование аватара
+
+formNewAvatar.addEventListener('submit', handleFormNewAvatarSubmit);
 
 enableValidation(validationSettings);

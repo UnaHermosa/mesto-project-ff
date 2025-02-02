@@ -1,4 +1,5 @@
 //Добавление полю ввода класса с ошибкой
+
 function showInputerror(formElement, inputElement, errorMessage, validationSettings) {
   
   //Находит элемент формы по Id для вывода текста ошибки

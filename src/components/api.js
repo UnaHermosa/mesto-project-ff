@@ -80,7 +80,7 @@ function removeCard(cardId) {
   .then(getResponse);
 };
 
-function updateAvatar() {
+function updateAvatar(avatar) {
   return fetch(`${config.urlBase}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
