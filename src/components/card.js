@@ -33,7 +33,7 @@ function createCard (link, name, cardId, likes, openImg, ownerId, userId) {
 
   likeButton.addEventListener('click', () => likeCard(likeButton, cardId, likesCount));
   
-  cardImage.addEventListener('click', openImg);
+  cardImage.addEventListener('click', () => openImg(link, name));
 
   return card;
 }

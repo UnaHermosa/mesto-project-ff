@@ -1,23 +1,9 @@
-import '../src/pages/index.css';
+import './pages/index.css';
 
 import { createCard } from '../src/components/card';
 import { closeModal, openModal } from '../src/components/modal';
 import { enableValidation, clearValidation } from './components/validation';
 import { getUserData, getInitialCards, updateUserData, postNewCard, updateAvatar } from './components/api';
-
-import '../src/vendor/fonts/Inter-Black.woff2';
-import '../src/vendor/fonts/Inter-Regular.woff2';
-
-import '../src/images/add-icon.svg';
-import '../src/images/card_1.jpg';
-import '../src/images/card_2.jpg';
-import '../src/images/card_3.jpg';
-import '../src/images/close.svg';
-import '../src/images/delete-icon.svg';
-import '../src/images/edit-icon.svg';
-import '../src/images/like-active.svg';
-import '../src/images/like-inactive.svg';
-import '../src/images/logo.svg';
 
 const form = document.querySelector('.popup__form');
 const placesList = document.querySelector('.places__list');
@@ -70,10 +56,10 @@ function renderLoading(isLoading, formElement) {
 
 // Реализация открытия и закрытия модального окна с изображением
 
-function openImg(evt) {
-  popupImageImg.src = evt.target.src;
-  popupImageImg.alt = evt.target.alt;
-  popupImageDescription.textContent = evt.target.alt;
+function openImg(link, name) {
+  popupImageImg.src = link;
+  popupImageImg.alt = name;
+  popupImageDescription.textContent = name;
   openModal(popupImg);
 }
 
@@ -146,8 +132,9 @@ Promise.all([getUserData(), getInitialCards()])
 
     initialCards.forEach((card) => {
       placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId))
-    });
-  });
+    })
+  })
+  .catch((err) => console.log(err));
 
 // Открытие и закрытие модального окна редактирования аватара
 
