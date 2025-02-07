@@ -29,6 +29,9 @@ const popupEditAvatar = document.querySelector('.popup_type_new-avatar');
 const formNewAvatar = popupEditAvatar.querySelector('.popup__form');
 const inputNewAvatar = formNewAvatar.querySelector('.popup__input_type_avatar');
 const closeButtonEditAvatar = popupEditAvatar.querySelector('.popup__close');
+const modalDelete = document.querySelector('.popup_type_delete');
+const confirmButton = modalDelete.querySelector('.popup__button');
+const closeButtunModalDelete = modalDelete.querySelector('.popup__close');
 
 let currentUserId = "";
 
@@ -97,7 +100,7 @@ function handleFormNewCardSubmit(evt) {
 
   postNewCard(userData.place, userData.link)
     .then((card) => {
-      placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId));
+      placesList.prepend(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId, modalDelete, confirmButton));
       formNewCard.reset();
       closeModal(popupNewCard);
     })
@@ -131,7 +134,7 @@ Promise.all([getUserData(), getInitialCards()])
     avatarImg.style.backgroundImage = `url(${userData.avatar}`;
 
     initialCards.forEach((card) => {
-      placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId))
+      placesList.append(createCard(card.link, card.name, card._id, card.likes, openImg, card.owner._id, currentUserId, modalDelete, confirmButton))
     })
   })
   .catch((err) => console.log(err));
@@ -182,5 +185,9 @@ form.addEventListener('submit', handleFormEditSubmit);
 // Редактирование аватара
 
 formNewAvatar.addEventListener('submit', handleFormNewAvatarSubmit);
+
+// Закрытие модального окна подтверждения удаления карточки
+
+closeButtunModalDelete.addEventListener('click', () => closeModal(modalDelete));
 
 enableValidation(validationSettings);

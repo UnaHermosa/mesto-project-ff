@@ -1,10 +1,11 @@
 import { setLikeToCard, removeCard } from "./api";
+import { closeModal, openModal } from "./modal";
 
 const cardTemplate = document.querySelector('#card-template').content;
 
 // Создание карточки
 
-function createCard (link, name, cardId, likes, openImg, ownerId, userId) {
+function createCard(link, name, cardId, likes, openImg, ownerId, userId, modal, delButton) {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -16,23 +17,28 @@ function createCard (link, name, cardId, likes, openImg, ownerId, userId) {
   cardImage.alt = name;
   cardTitle.textContent = name;
   likesCount.textContent = likes.length;
-  
-  if(ownerId !== userId) {
+
+  if (ownerId !== userId) {
     deleteButton.remove();
   } else {
     deleteButton.addEventListener('click', () => {
-      deleteCard(card, cardId);
+      openModal(modal);
+      if (delButton.addEventListener('click', () => {
+        deleteCard(card, cardId);
+        closeModal(modal);
+      })
+      );
     });
   }
 
   const isLiked = likes.some((like) => like._id === userId);
 
-  if(isLiked) {
+  if (isLiked) {
     likeButton.classList.add('card__like-button_is-active');
   }
 
   likeButton.addEventListener('click', () => likeCard(likeButton, cardId, likesCount));
-  
+
   cardImage.addEventListener('click', () => openImg(link, name));
 
   return card;
@@ -40,7 +46,7 @@ function createCard (link, name, cardId, likes, openImg, ownerId, userId) {
 
 // Удаление карточки
 
-function deleteCard (card, cardId) {
+function deleteCard(card, cardId) {
   removeCard(cardId)
     .then(() => card.remove())
     .catch((err) => console.log(err));
